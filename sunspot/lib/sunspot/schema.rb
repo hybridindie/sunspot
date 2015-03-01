@@ -1,7 +1,7 @@
 require 'erb'
 
 module Sunspot
-  # 
+  #
   # Object that encapsulates schema information for building a Solr schema.xml
   # file. This class is used by the schema:compile task as well as the
   # sunspot-configure-solr executable.
@@ -16,14 +16,13 @@ module Sunspot
     FIELD_TYPES = [
       FieldType.new('boolean', 'Bool', 'b'),
       FieldType.new('sfloat', 'SortableFloat', 'f'),
-      FieldType.new('date', 'Date', 'd'),
+      FieldType.new('date', 'TrieDate', 'd'),
       FieldType.new('sint', 'SortableInt', 'i'),
       FieldType.new('string', 'Str', 's'),
       FieldType.new('sdouble', 'SortableDouble', 'e'),
       FieldType.new('slong', 'SortableLong', 'l'),
       FieldType.new('tint', 'TrieInteger', 'it'),
       FieldType.new('tfloat', 'TrieFloat', 'ft'),
-      FieldType.new('tdate', 'TrieInt', 'dt')
 
     ]
 
@@ -39,14 +38,14 @@ module Sunspot
       @filters = DEFAULT_FILTERS.dup
     end
 
-    # 
+    #
     # Attribute field types defined in the schema
     #
     def types
       FIELD_TYPES
     end
 
-    # 
+    #
     # DynamicField instances representing all the available types and variants
     #
     def dynamic_fields
@@ -59,11 +58,11 @@ module Sunspot
       fields
     end
 
-    # 
+    #
     # Which tokenizer to use for text fields
     #
     def tokenizer=(tokenizer)
-      @tokenizer = 
+      @tokenizer =
         if tokenizer =~ /\./
           tokenizer
         else
@@ -71,7 +70,7 @@ module Sunspot
         end
     end
 
-    # 
+    #
     # Add a filter for text field tokenization
     #
     def add_filter(filter)
@@ -83,7 +82,7 @@ module Sunspot
         end
     end
 
-    # 
+    #
     # Return an XML representation of this schema using the ERB template
     #
     def to_xml
@@ -107,7 +106,7 @@ module Sunspot
       combinations
     end
 
-    # 
+    #
     # Represents a dynamic field (in the Solr schema sense, not the Sunspot
     # sense).
     #
@@ -116,7 +115,7 @@ module Sunspot
         @type, @field_variants = type, field_variants
       end
 
-      # 
+      #
       # Name of the field in the schema
       #
       def name
@@ -124,14 +123,14 @@ module Sunspot
         "*_#{@type.suffix}#{variant_suffixes}"
       end
 
-      # 
+      #
       # Name of the type as defined in the schema
       #
       def type
         @type.name
       end
 
-      # 
+      #
       # Implement magic methods to ask if a field is of a particular variant.
       # Returns "true" if the field is of that variant and "false" otherwise.
       #
